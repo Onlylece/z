@@ -1,0 +1,63 @@
+---
+// Component Imports
+import Navbar from '../components/Navbar.astro';
+import Banner from '../components/Banner.astro';
+import structuredData from '../utility/JSONid.js';
+const {content} = Astro.props;
+let postData = {
+	title: content.title,
+	imageName: content.image,
+	datePublished: content.date,
+	dateModified: content.dateModified
+}
+let richResults = structuredData(postData);
+// Full Astro Component Syntax:
+// https://docs.astro.build/core-concepts/astro-components/
+---
+
+<html lang="ar" dir="rtl">
+	<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width,initial-scale=1" />
+	<meta property="og:type" content="article" />
+	<meta property="og:title" content={content.title} />
+	{content.des && <meta property="og:description" content={content.des} />}
+	<meta property="og:image" content={content.image} />
+
+	<!-- Twitter -->
+	<meta property="twitter:card" content="summary_large_image" />
+	<meta property="twitter:title" content={content.title} />
+	<meta name="viewport" content="width=device-width,initial-scale=1" />
+	{content.desc && (<Fragment>
+	<meta property="twitter:description" content={content.des} />
+	<meta name="description" content={content.des} />
+	</Fragment>)}
+	<style global>
+		@import "./../styles/global.css";
+		.blog-content img {
+			@apply my-4;
+		}
+		.blog-content img {
+			@apply my-4;
+		}
+	</style>
+	<meta property="twitter:image" content={content.image} />
+	<link rel="icon" type="image/x-icon" href="/favicon.ico" />
+	<title>x7md</title>
+	<link rel="stylesheet" type="text/css" href="/Vazirmatn-RD-font-face.css" />
+	<script defer src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/petite-vue@0.4.1/dist/petite-vue.iife.min.js" defer init></script>
+	</head>
+	<body>
+	<main>
+		<Navbar />
+		<Banner />
+		<img class="header-blog" src={content.image} />
+		<div class="container blog-content mx-auto text-right px-4 sm:px-6 md:px-8 pt-12 pb-20 flex flex-col">
+			<slot></slot>
+		</div>
+	</main>
+	<!--Rich Results-->
+<script type="application/ld+json" set:html={richResults}></script>
+	</body>
+</html>
